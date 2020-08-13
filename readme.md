@@ -8,6 +8,7 @@
 
 ## Installation
 
+1. Open your terminal in the project directory and run `composer install`
 1. Open `includes/config.inc.php` and change the **DATABASE** array with
 the corresponding information for your database.
 1. Import the `database.sql` file in the `database` folder to your Database.
