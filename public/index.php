@@ -11,4 +11,7 @@ $router = new Router;
 
 require_once '../routes/web.php';
 
-$router->direct(trim($_SERVER['REQUEST_URI'], '/'));
+$router->direct(
+    trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'),
+    $_SERVER['REQUEST_METHOD']
+);

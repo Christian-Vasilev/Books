@@ -1,9 +1,6 @@
 <?php
 
-
 /** @var Router $router */
-return $router->define([
-    '' => 'HomeController@index',
-    'home' => 'HomeController@home',
-    'register' => 'UserController@register',
-]);
+$router->get('', 'HomeController@index');
+$router->get('register', 'HomeController@index');
+$router->post('register', 'UserController@index');
