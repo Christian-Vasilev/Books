@@ -4,7 +4,7 @@
 > Simple app that will help you manage your book collections
 
 #### Database structure
-<a href="https://github.com/Christian-Vasilev/Books"><img src="https://i.imgur.com/pRCvgCs.png" alt="database-structure"></a>
+<a href="https://github.com/Christian-Vasilev/Books"><img src="https://i.imgur.com/UsrbONK.png" alt="database-structure"></a>
 
 ## Installation
 
