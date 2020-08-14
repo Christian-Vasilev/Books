@@ -16,6 +16,17 @@ class Router
     protected $namespace = 'App\\Controllers';
 
     /**
+     * Trim the uri from any extra slashes
+     *
+     * @param $uri
+     * @return string
+     */
+    public function trim($uri)
+    {
+        return trim($uri, '/');
+    }
+
+    /**
      * Sets a GET route to the list of routes
      *
      * @param $uri
@@ -23,6 +34,8 @@ class Router
      */
     public function get($uri, $controller)
     {
+        $uri = $this->trim($uri);
+
         $this->routes['GET'][$uri] = $controller;
     }
 
@@ -34,8 +47,9 @@ class Router
      */
     public function post($uri, $controller)
     {
-        $this->routes['POST'][$uri] = $controller;
+        $uri = $this->trim($uri);
 
+        $this->routes['POST'][$uri] = $controller;
     }
 
     /**

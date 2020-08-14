@@ -14,3 +14,5 @@ define('DATABASE', [
 // App root
 define('APP_ROOT', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 define('APP_NAME', 'My books');
+define('APP_URL', 'http://books.com');
+define('PUBLIC_PATH', str_replace('\\', '/', dirname(__DIR__)) . '/public');
