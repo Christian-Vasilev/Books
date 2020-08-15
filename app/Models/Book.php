@@ -125,7 +125,7 @@ class Book extends Model
 
     public function getImage()
     {
-        return str_replace('\\', '/', self::IMAGE_DIRECTORY . $this->id . DIRECTORY_SEPARATOR . $this->image);
+        return str_replace('\\', '/', '/uploads/'. $this->id . DIRECTORY_SEPARATOR . $this->image);
     }
 
     /**

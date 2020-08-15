@@ -205,7 +205,6 @@ class UserController
             ],
             'password' => [
                 ValidationRules::required($password),
-                ValidationRules::min($password, 5)
             ],
         ]);
     }

@@ -4,6 +4,8 @@
 namespace App\Models;
 
 
+use App\Libraries\Auth;
+
 class User extends Model
 {
     const PRIVILEGES_ADMINISTRATOR = 2;
@@ -98,27 +100,42 @@ class User extends Model
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function delete($bookId)
+    public function hasBookInCollection($bookId)
     {
-        $sql = sprintf(
-            'DELETE FROM %s WHERE id = (%s)',
-            'books',
-            $bookId
+        $sql = sprintf('
+                SELECT books.* FROM %s
+                INNER JOIN %s ON %s = %s
+                INNER JOIN %s ON %s = %s
+                WHERE %s = %s
+                AND %s = %s
+            ', 'users',
+            'book_user', 'users.id', 'book_user.user_id',
+            'books', 'books.id', 'book_user.book_id',
+            'users.id', Auth::user()->id,
+            'books.id', $bookId
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->query($sql);
 
-            $statement->execute();
-            $deletedRecords = $statement->rowCount();
+        return $statement->rowCount();
+    }
 
-            $this->pdo->commit();
+    public function books()
+    {
+        $sql = sprintf('
+                SELECT books.* FROM %s
+                INNER JOIN %s ON %s = %s
+                INNER JOIN %s ON %s = %s
+                WHERE %s = %s
+            ', 'users',
+            'book_user', 'users.id', 'book_user.user_id',
+            'books', 'books.id', 'book_user.book_id',
+            'users.id', Auth::user()->id
+        );
 
-            return $deletedRecords;
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        $statement = $this->pdo->query($sql);
+
+        return $statement->fetchAll(\PDO::FETCH_CLASS, Book::class);
     }
 
     public function find($id)
@@ -158,25 +175,5 @@ class User extends Model
     public function getImage()
     {
         return str_replace('\\', '/', self::IMAGE_DIRECTORY . $this->id . DIRECTORY_SEPARATOR . $this->image);
-    }
-
-    /**
-     * Generate Unique ISBN ID until there are no results matching the key
-     *
-     * @return $this
-     * @throws \Exception
-     */
-    public function generateUniqueIsbn()
-    {
-        $isbn = null;
-
-        do {
-            $isbn = mt_rand(1000000000,9999999999);
-            $statement = $this->pdo->prepare('SELECT COUNT(*) FROM books WHERE isbn = :isbn');
-            $statement->execute(['isbn' => $isbn]);
-
-        } while ($res = $statement->fetch()[0]);
-
-        return $this->isbn = $isbn;
     }
 }

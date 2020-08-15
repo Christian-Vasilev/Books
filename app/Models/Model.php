@@ -13,7 +13,7 @@ class Model
     {
         try {
             $this->pdo = new PDO(
-                'mysql:host='.DATABASE['HOST'].';dbname='.DATABASE['NAME'].'',
+                'mysql:host='.DATABASE['HOST'].';dbname='.DATABASE['NAME'].';'.DATABASE['CHARSET'].'',
                 DATABASE['USER'],
                 DATABASE['PASSWORD'],
                 DATABASE['OPTIONS']

@@ -11,6 +11,20 @@
 the corresponding information for your database.
 1. Open `includes/config.inc.php` and change the `APP_NAME` and `APP_URL`
 1. Import the `database.sql` file in the `database` folder to your Database.
+1. Create a **symlink** on the `uploads` folder pointing to `public/uploads` 
+in order to load images properly.
+
+## Users
+> The database by default has 2 records in it. One for admin
+> and one for user to test the different functionality of the system.
+> Credentials:
+
+- Administrator
+    * Email - `admin@books.com`
+    * Password - `administrator`
+- User
+    * Email - `user@books.com`
+    * Password - `user`
 
 #### TODO:
 ##### General
@@ -18,11 +32,16 @@ the corresponding information for your database.
 - Add pagination to listing pages;
 - ~~Show/Hide buttons, links based on user privileges and session~~
 - ~~Restrict routes for unauthorized users~~
+- ~~Create a symlink for uploads in order to load images properly~~
 ##### Users
 - ~~Create user session on login~~
 - ~~Register new user~~
 - ~~Login existing user~~
 - ~~Check privileges of a user~~
+##### Collection
+- ~~Add book to a collection~~
+- ~~Remove book from collection~~
+- ~~List user books collection~~
 ##### Books
 - ~~Create a book~~;
 - ~~Update a book~~;

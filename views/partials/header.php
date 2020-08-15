@@ -26,7 +26,6 @@ use App\Libraries\Auth;
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="/">My books</a>
-
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
@@ -39,7 +38,7 @@ use App\Libraries\Auth;
                         Books
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/books/create">My Collection</a>
+                        <a class="dropdown-item" href="/collection/show">My Collection</a>
                         <?php if (Auth::isAdmin()) { ?>
                             <a class="dropdown-item" href="/books/create">Create</a>
                         <?php } ?>
@@ -47,8 +46,8 @@ use App\Libraries\Auth;
                 </li>
             </ul>
             <?php if (!Auth::user()) { ?>
-                    <a class="text-white nav-link" href="/login">Login</a>
-                    <a class="text-white nav-link" href="/register">Register</a>
+                <a class="text-white nav-link" href="/login">Login</a>
+                <a class="text-white nav-link" href="/register">Register</a>
             <?php } else { ?>
             <div class="dropdown show">
                 <a class="nav-link text-white dropdown-toggle" href="#" id="profile-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

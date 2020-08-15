@@ -12,6 +12,11 @@ $router->post('books/update', 'BookController@update');
 $router->get('books/edit', 'BookController@edit');
 $router->get('books/show', 'BookController@show');
 
+// Collection related routes
+$router->post('collection/store', 'CollectionController@store');
+$router->get('collection/show', 'CollectionController@show');
+$router->post('collection/delete', 'CollectionController@delete');
+
 // User related routes
 $router->get('/profile', 'UserController@profile');
 $router->post('/profile', 'UserController@update');

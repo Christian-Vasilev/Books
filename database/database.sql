@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   KEY `isbn key` (`isbn`)
 ) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
--- Дъмп данни за таблица books.books: ~8 rows (approximately)
+-- Дъмп данни за таблица books.books: ~0 rows (approximately)
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 
@@ -63,12 +63,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Дъмп данни за таблица books.users: ~1 rows (approximately)
+-- Дъмп данни за таблица books.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`, `active`, `privileges`, `created_at`, `updated_at`) VALUES
-	(1, 'test@books.com', 'Admin', 'Administrator', '$2y$10$//mVx1WIzV68TG.etMQWJ.3NTgurv1VyWte6/Kl/3Mq33XHH1HHlm', 1, 2, '2020-08-12 20:45:56', '2020-08-12 20:45:57');
+	(1, 'admin@books.com', 'Admin', 'Ivanov', '$2y$10$aHnrIhpZtjhGlim2RKHO0uD.zaCYN1qlVjAd0KOH8CoQzcsxM2LM2', 1, 2, '2020-08-15 22:12:55', '2020-08-15 22:12:55'),
+	(2, 'user@books.com', 'User', 'Ivanov', '$2y$10$pumZTpix/L1KpBAwEgN4suFhTSB06TpgEZ76.A2DeUseq40vcuzY.', 1, 0, '2020-08-15 22:13:53', '2020-08-15 22:13:53');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -3,6 +3,7 @@
 use App\Libraries\Auth;
 
 require APP_ROOT . 'views/partials/header.php';
+
 ?>
 
 <body class="text-center" cz-shortcut-listen="true" style="">
@@ -16,11 +17,23 @@ require APP_ROOT . 'views/partials/header.php';
                         <hr/>
                         <p class="card-text"><?= $book->description ?? 'No description provided' ?></p>
                         <?php if (!is_null(Auth::user())) { ?>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-success ml-1">Add to collection</button>
+                            <?php if (!Auth::user()->hasBookInCollection($book->id)) { ?>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <form action="/collection/store" method="post" class="form-group">
+                                        <input type="hidden" value="<?= $book->id ?>" name="book_id"/>
+                                        <input type="hidden" value="<?= csrf() ?>" name="token"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-success ml-1">Add to collection</button>
+                                    </form>
                                 </div>
-                            </div>
+                            <?php } else { ?>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <form action="/collection/delete" method="post" class="form-group">
+                                        <input type="hidden" value="<?= $book->id ?>" name="book_id"/>
+                                        <input type="hidden" value="<?= csrf() ?>" name="token"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger ml-1">Remove from collection</button>
+                                    </form>
+                                </div>
+                            <?php } ?>
                         <?php } ?>
                     </div>
                 </div>
