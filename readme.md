@@ -1,5 +1,5 @@
 # My books
-> Simple app that will help you manage your book collections
+> Simple app that will help you manage your books collection
 
 #### Database structure
 <a href="https://github.com/Christian-Vasilev/Books"><img src="https://i.imgur.com/HDdhYoO.png" alt="database-structure"></a>
