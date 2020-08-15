@@ -3,19 +3,19 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Auth;
 use App\Libraries\ValidateRequest;
 use App\Libraries\ValidationRules;
 use App\Models\Book;
 
 class BookController
 {
-    public function __construct()
-    {
-
-    }
-
     public function create()
     {
+        if (!Auth::isAdmin()) {
+            return redirect('/');
+        }
+
         return view('books/create');
     }
 
@@ -52,11 +52,15 @@ class BookController
             dd($e->getMessage());
         }
 
-        return view('books/create', ['success' => 'Booking was created successfully!']);
+        return redirect('/');
     }
 
     public function destroy()
     {
+        if (!Auth::isAdmin()) {
+            return redirect('/');
+        }
+
         if (!isValidCsrf($_POST['token'])) {
             return redirect('/');
         }
@@ -83,6 +87,10 @@ class BookController
 
     public function edit()
     {
+        if (!Auth::isAdmin()) {
+            return redirect('/');
+        }
+
         $book = (new Book())->find($_GET['book_id']);
 
         if (!is_null($book)) {
@@ -95,6 +103,10 @@ class BookController
 
     public function update()
     {
+        if (!Auth::isAdmin()) {
+            return redirect('/');
+        }
+
         $bookId = $_POST['book_id'];
 
         if (!$this->validate($_POST, true)) {

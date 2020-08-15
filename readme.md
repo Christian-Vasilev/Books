@@ -16,12 +16,20 @@ the corresponding information for your database.
 ##### General
 - Create flash messages on success and failure for better response;
 - Add pagination to listing pages;
+- ~~Show/Hide buttons, links based on user privileges and session~~
+- ~~Restrict routes for unauthorized users~~
+##### Users
+- ~~Create user session on login~~
+- ~~Register new user~~
+- ~~Login existing user~~
+- ~~Check privileges of a user~~
 ##### Books
 - ~~Create a book~~;
 - ~~Update a book~~;
 - ~~Delete a book~~;
 - ~~View a book~~;
 - ~~List all books~~;
+- ~~Added fillable fields~~;
 ##### CSRF Protection
 - ~~Generate csrf token~~;
 - ~~Validate csrf token~~;
@@ -32,7 +40,7 @@ the corresponding information for your database.
 - ~~Sanitize data when inserting in the database~~;
 - ~~Add error response under each invalid field~~;
 #### Basic
-- ~~Add composer for autoloading files~~;
+- ~~Add composer for auto loading files~~;
 - ~~Add gitignore in needed directories~~;
 - ~~Add database dump in the project~~;
 - ~~Create a simple GET / POST route system~~;

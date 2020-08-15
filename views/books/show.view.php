@@ -1,7 +1,9 @@
 <?php
-    require APP_ROOT . 'views/partials/header.php';
-?>
 
+use App\Libraries\Auth;
+
+require APP_ROOT . 'views/partials/header.php';
+?>
 
 <body class="text-center" cz-shortcut-listen="true" style="">
     <div class="container-fluid pt-5 text-center">
@@ -13,11 +15,13 @@
                         <h3><?= $book->name ?></h3>
                         <hr/>
                         <p class="card-text"><?= $book->description ?? 'No description provided' ?></p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-success ml-1">Add to collection</button>
+                        <?php if (!is_null(Auth::user())) { ?>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-success ml-1">Add to collection</button>
+                                </div>
                             </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

@@ -28,6 +28,17 @@ function generateCsrf() {
     return $_SESSION['csrf_token'];
 }
 
+function logout()
+{
+    if (isset($_SESSION['user'])) {
+        unset($_SESSION['user']);
+
+        return true;
+    }
+
+    return true;
+}
+
 function isValidCsrf($token) {
     if (isset($_SESSION['csrf_token']) && $_SESSION['csrf_expire']) {
         if (time() > $_SESSION['csrf_expire']) {

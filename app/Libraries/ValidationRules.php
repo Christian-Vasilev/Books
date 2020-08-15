@@ -11,6 +11,16 @@ class ValidationRules
         return !empty($value);
     }
 
+    public static function password($password, $repeatedPassword)
+    {
+        return $password === $repeatedPassword;
+    }
+
+    public static function email($value)
+    {
+        return filter_var($value, FILTER_VALIDATE_EMAIL);
+    }
+
     public static function min($value, $min)
     {
         return strlen($value) >= $min;

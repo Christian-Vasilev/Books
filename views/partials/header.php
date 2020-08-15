@@ -1,3 +1,7 @@
+<?php
+
+use App\Libraries\Auth;
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,38 +20,42 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 </head>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/">My books</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
+        <a class="navbar-brand" href="#">My books</a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Books
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/books/create">List</a>
+                        <a class="dropdown-item" href="/books/create">My Collection</a>
                         <a class="dropdown-item" href="/books/create">Create</a>
                     </div>
                 </li>
             </ul>
+
+            <?php if (!Auth::user()) { ?>
+                    <a class="text-white nav-link" href="/login">Login</a>
+                    <a class="text-white nav-link" href="/register">Register</a>
+            <?php } else { ?>
+                <span class="mr-3 text-dark text-white-50">Здрваей, <strong class="text-white"><?= Auth::user()->getNames() ?></strong></span>
+                <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                    <button role="button" class="btn btn-outline-success">Logout</button>
+                </form>
+            <?php } ?>
+
         </div>
     </div>
 </nav>
