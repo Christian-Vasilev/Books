@@ -11,20 +11,24 @@ function redirect($route) {
 }
 
 function sanitize($value) {
-    return trim(htmlspecialchars($value));
+    return (htmlspecialchars($value));
 }
 
 function csrf() {
+    return refreshCsrfToken();
+}
+
+function generateCsrf() {
     if (!isset($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_expire'] = time() + 3600; // 1 hour
+        $_SESSION['csrf_expire'] = time() + 35; // 1 hour
+
         return $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
 
     return $_SESSION['csrf_token'];
 }
 
-function isValidCsrf($token)
-{
+function isValidCsrf($token) {
     if (isset($_SESSION['csrf_token']) && $_SESSION['csrf_expire']) {
         if (time() > $_SESSION['csrf_expire']) {
             unset($_SESSION['csrf_token']);
@@ -39,14 +43,11 @@ function isValidCsrf($token)
     return false;
 }
 
-function invalidateCsrf()
-{
-    if (isset($_SESSION['csrf_token']) && $_SESSION['csrf_expire']) {
+function refreshCsrfToken() {
+    if (isset($_SESSION['csrf_token']) && !isValidCsrf($_SESSION['csrf_token'])) {
         unset($_SESSION['csrf_token']);
         unset($_SESSION['csrf_expire']);
-
-        return true;
     }
 
-    return false;
+    return generateCsrf();
 }
