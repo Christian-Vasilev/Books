@@ -16,6 +16,10 @@ class BookController
 
     public function store()
     {
+        if (!isValidCsrf($_POST['token'])) {
+            return redirect('/books/create');
+        }
+
         if (!$this->validate($_POST)) {
             return redirect('/books/create');
         }

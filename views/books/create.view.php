@@ -15,6 +15,7 @@ require APP_ROOT . 'views/partials/header.php';
                 <div class="card-body">
                     <h5 class="card-title text-center">Create Book</h5>
                     <form method="post" action="/books/store" enctype="multipart/form-data">
+                        <input type="hidden" value="<?= csrf() ?>" name="token">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name"
