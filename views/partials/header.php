@@ -40,11 +40,12 @@ use App\Libraries\Auth;
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/books/create">My Collection</a>
-                        <a class="dropdown-item" href="/books/create">Create</a>
+                        <?php if (Auth::isAdmin()) { ?>
+                            <a class="dropdown-item" href="/books/create">Create</a>
+                        <?php } ?>
                     </div>
                 </li>
             </ul>
-
             <?php if (!Auth::user()) { ?>
                     <a class="text-white nav-link" href="/login">Login</a>
                     <a class="text-white nav-link" href="/register">Register</a>
@@ -61,7 +62,6 @@ use App\Libraries\Auth;
                     <button role="button" class="btn btn-outline-secondary">Logout</button>
                 </form>
             <?php } ?>
-
         </div>
     </div>
 </nav>
