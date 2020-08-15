@@ -13,6 +13,14 @@ class Book extends Model
     public $id;
     protected $isbn;
     public $image;
+    private $fillable = [
+        'name',
+        'isbn',
+        'description',
+        'image',
+        'created_at',
+        'updated_at'
+    ];
 
     public function create($attributes)
     {
@@ -36,6 +44,37 @@ class Book extends Model
             $this->pdo->commit();
 
             return $this->find($lastInsertedId);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+    public function update($attributes, $bookId)
+    {
+        $fields = '';
+        foreach ($attributes as $key => $value) {
+            if (in_array($key, $this->fillable) && !empty($value)) {
+                $fields .= "{$key} = :{$key}, ";
+            }
+        }
+
+        $fields = rtrim(trim($fields), ',');
+
+        $sql = sprintf(
+            'UPDATE %s SET %s WHERE id = %s',
+            'books',
+            $fields,
+            $bookId
+        );
+
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $this->pdo->beginTransaction();
+
+            $statement->execute(array_filter($attributes));
+
+            $this->pdo->commit();
+
+            return $statement->rowCount();
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -68,6 +107,10 @@ class Book extends Model
     {
         $sql =  sprintf('SELECT * FROM %s WHERE %s = %s', 'books', 'id', $id);
         $statement = $this->pdo->query($sql);
+
+        if (!$statement->rowCount()) {
+            return null;
+        }
 
         return $statement->fetchAll(\PDO::FETCH_CLASS, Book::class)[0];
     }

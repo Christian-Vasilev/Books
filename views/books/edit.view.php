@@ -3,7 +3,7 @@
 use App\Libraries\FlashInputValues;
 use App\Libraries\FlashMessage;
 
-require APP_ROOT . 'views/partials/header.php';
+    require APP_ROOT . 'views/partials/header.php';
 ?>
 <div class="container">
     <div class="row">
@@ -13,13 +13,16 @@ require APP_ROOT . 'views/partials/header.php';
                     <!-- Background image for card set in CSS! -->
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title text-center">Create Book</h5>
-                    <form method="post" action="/books/store" enctype="multipart/form-data">
+                    <h4 class="card-title text-center">Edit</h4>
+                    <h3 class="card-title text-center"><?= ucfirst($book->name) ?></h3>
+                    <hr/>
+                    <form method="post" action="/books/update" enctype="multipart/form-data">
                         <input type="hidden" value="<?= csrf() ?>" name="token">
+                        <input type="hidden" value="<?= $book->id ?>" name="book_id">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name"
-                                   value="<?php FlashInputValues::exists('name') ? FlashInputValues::read('name') : '' ?>"
+                                   value="<?= FlashInputValues::exists('name') ? FlashInputValues::read('name') : $book->name ?>"
                                    class="form-control" placeholder="My cool book name">
                             <?php if (FlashMessage::exists('name')) { ?>
                                 <small class="form-text text-muted alert-danger p-1"><?= FlashMessage::read('name') ?></small>
@@ -29,7 +32,7 @@ require APP_ROOT . 'views/partials/header.php';
                             <label for="description">Description</label>
                             <textarea class="form-control"
                                       name="description"
-                                      id="description" rows="3"><?php FlashInputValues::exists('description') ? FlashInputValues::read('description') : '' ?></textarea>
+                                      id="description" rows="3"><?= FlashInputValues::exists('description') ? FlashInputValues::read('description') : $book->description ?></textarea>
                             <?php if (FlashMessage::exists('description')) { ?>
                                 <small class="form-text text-muted alert-danger p-1"><?= FlashMessage::read('description') ?></small>
                             <?php } ?>
@@ -40,10 +43,11 @@ require APP_ROOT . 'views/partials/header.php';
                             <?php if (FlashMessage::exists('image')) { ?>
                                 <small class="form-text text-muted alert-danger p-1"><?= FlashMessage::read('image') ?></small>
                             <?php } ?>
-
                         </div>
-                        <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <?php if (isset($success)) { ?>
+                            <small class="form-text text-muted alert-success p-3"><?= $success ?></small>
+                        <?php } ?>
                     </form>
                 </div>
             </div>

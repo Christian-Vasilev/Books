@@ -27,6 +27,11 @@ class ValidationRules
 
     public static function image($file)
     {
-        return !$file['error'] > 0;
+        return isset($file['error']) ? $file['error'] === 0 : false;
+    }
+
+    public static function isValidToken($value)
+    {
+        return isValidCsrf($value);
     }
 }
