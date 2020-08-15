@@ -58,7 +58,7 @@ class BookController
     public function destroy()
     {
         if (!isValidCsrf($_POST['token'])) {
-            return redirect('/books/create');
+            return redirect('/');
         }
 
         $deleted = (new Book())->delete($_POST['book_id']);
