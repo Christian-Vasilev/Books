@@ -14,6 +14,10 @@ class UserController
 {
     public function register()
     {
+        if (Auth::user()) {
+            return redirect('/');
+        }
+
         return view('users/register');
     }
 
@@ -76,6 +80,10 @@ class UserController
 
     public function login()
     {
+        if (Auth::user()) {
+            return redirect('/');
+        }
+
         return view('users/login');
     }
 
