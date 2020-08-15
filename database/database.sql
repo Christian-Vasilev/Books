@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `books` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `isbn` (`isbn`),
   KEY `isbn key` (`isbn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
--- Дъмп данни за таблица books.books: ~0 rows (approximately)
+-- Дъмп данни за таблица books.books: ~8 rows (approximately)
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 
@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `privileges` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -64,10 +65,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Дъмп данни за таблица books.users: ~0 rows (approximately)
+-- Дъмп данни за таблица books.users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `active`, `privileges`, `created_at`, `updated_at`) VALUES
-	(1, 'test@books.com', 'Admin', 'Administrator', 1, 2, '2020-08-12 20:45:56', '2020-08-12 20:45:57');
+INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`, `active`, `privileges`, `created_at`, `updated_at`) VALUES
+	(1, 'test@books.com', 'Admin', 'Administrator', '$2y$10$//mVx1WIzV68TG.etMQWJ.3NTgurv1VyWte6/Kl/3Mq33XHH1HHlm', 1, 2, '2020-08-12 20:45:56', '2020-08-12 20:45:57');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
