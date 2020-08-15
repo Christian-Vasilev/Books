@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Book extends Model
 {
-    const IMAGE_DIRECTORY = APP_ROOT . 'uploads/';
+    const IMAGE_DIRECTORY = APP_ROOT . 'uploads' . DIRECTORY_SEPARATOR;
 
     public $description;
     public $name;
@@ -41,12 +41,48 @@ class Book extends Model
         }
     }
 
+    public function delete($bookId)
+    {
+        $sql = sprintf(
+            'DELETE FROM %s WHERE id = (%s)',
+            'books',
+            $bookId
+        );
+
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $this->pdo->beginTransaction();
+
+            $statement->execute();
+            $deletedRecords = $statement->rowCount();
+
+            $this->pdo->commit();
+
+            return $deletedRecords;
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
     public function find($id)
     {
         $sql =  sprintf('SELECT * FROM %s WHERE %s = %s', 'books', 'id', $id);
         $statement = $this->pdo->query($sql);
 
         return $statement->fetchAll(\PDO::FETCH_CLASS, Book::class)[0];
+    }
+
+    public function list()
+    {
+        $sql =  sprintf('SELECT * FROM %s', 'books');
+        $statement = $this->pdo->query($sql);
+
+        return $statement->fetchAll(\PDO::FETCH_CLASS, Book::class);
+    }
+
+    public function getImage()
+    {
+        return str_replace('\\', '/', self::IMAGE_DIRECTORY . $this->id . DIRECTORY_SEPARATOR . $this->image);
     }
 
     /**

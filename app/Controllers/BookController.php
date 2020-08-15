@@ -9,6 +9,11 @@ use App\Models\Book;
 
 class BookController
 {
+    public function __construct()
+    {
+
+    }
+
     public function create()
     {
         return view('books/create');
@@ -76,5 +81,20 @@ class BookController
                 ValidationRules::image($image),
             ]
         ]);
+    }
+
+    public function destroy()
+    {
+        if (!isValidCsrf($_POST['token'])) {
+            return redirect('/books/create');
+        }
+
+        $deleted = (new Book())->delete($_POST['book_id']);
+
+        if ($deleted) {
+            return redirect('/');
+        }
+
+        return redirect('/');
     }
 }
