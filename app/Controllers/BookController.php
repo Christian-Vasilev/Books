@@ -21,7 +21,7 @@ class BookController
         }
 
         try {
-            $imageName = basename($_FILES['image']['name']);
+            $imageName = strtolower(str_replace(' ', '_', basename($_FILES['image']['name'])));
 
             // Create a new booking record
             $book = (new Book())->create([
