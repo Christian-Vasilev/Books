@@ -25,4 +25,15 @@ class Auth
 
         return false;
     }
+
+    public static function logout()
+    {
+        if (isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+
+            return true;
+        }
+
+        return true;
+    }
 }

@@ -14,7 +14,7 @@ require APP_ROOT . 'views/partials/header.php';
                 </div>
                 <div class="card-body">
                     <h5 class="card-title text-center">Registration form</h5>
-                    <form method="post" action="/register" enctype="multipart/form-data">
+                    <form method="post" action="/register">
                         <input type="hidden" value="<?= csrf() ?>" name="token">
                         <div class="form-group">
                             <label for="email">Email</label>

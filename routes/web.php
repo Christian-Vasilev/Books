@@ -13,6 +13,9 @@ $router->get('books/edit', 'BookController@edit');
 $router->get('books/show', 'BookController@show');
 
 // User related routes
+$router->get('/profile', 'UserController@profile');
+$router->post('/profile', 'UserController@update');
+$router->post('/password-change', 'UserController@changePassword');
 $router->get('/register', 'UserController@register');
 $router->post('/register', 'UserController@store');
 $router->get('/login', 'UserController@login');

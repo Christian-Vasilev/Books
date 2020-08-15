@@ -51,7 +51,7 @@ class User extends Model
         }
     }
 
-    public function update($attributes, $bookId)
+    public function update($attributes, $userId)
     {
         $fields = '';
 
@@ -65,9 +65,9 @@ class User extends Model
 
         $sql = sprintf(
             'UPDATE %s SET %s WHERE id = %s',
-            'books',
+            'users',
             $fields,
-            $bookId
+            $userId
         );
 
         try {

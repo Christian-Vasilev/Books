@@ -22,11 +22,10 @@ use App\Libraries\Auth;
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">My books</a>
+        <a class="navbar-brand" href="/">My books</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -50,7 +49,14 @@ use App\Libraries\Auth;
                     <a class="text-white nav-link" href="/login">Login</a>
                     <a class="text-white nav-link" href="/register">Register</a>
             <?php } else { ?>
-                <span class="mr-3 text-dark text-white-50">Здрваей, <strong class="text-white"><?= Auth::user()->getNames() ?></strong></span>
+            <div class="dropdown show">
+                <a class="nav-link text-white dropdown-toggle" href="#" id="profile-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?= Auth::user()->getNames() ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                    <a class="dropdown-item" href="/profile">Update profile</a>
+                </div>
+            </div>
                 <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
                     <button role="button" class="btn btn-outline-success">Logout</button>
                 </form>

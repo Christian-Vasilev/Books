@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Libraries\Auth;
 use App\Libraries\FlashMessage;
 use App\Libraries\ValidateRequest;
 use App\Libraries\ValidationRules;
@@ -34,6 +35,45 @@ class UserController
         redirect('/login');
     }
 
+    public function update()
+    {
+        if(!$this->validateUpdate($_POST)) {
+            return redirect('/profile');
+        }
+
+        $currentEmail = Auth::user()->email;
+
+        (new User())->update([
+            'email' => sanitize($_POST['email']),
+            'first_name' => sanitize($_POST['first_name']),
+            'last_name' => sanitize($_POST['last_name']),
+            'updated_at' => date('Y-m-d H:i:s', time()),
+        ], Auth::user()->id);
+
+
+        if ($currentEmail !== $_POST['email']) {
+            Auth::logout();
+        }
+
+        redirect('/profile');
+    }
+
+    public function changePassword()
+    {
+        if(!$this->validatePasswordChange($_POST)) {
+            return redirect('/profile');
+        }
+
+        (new User())->update([
+            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+            'updated_at' => date('Y-m-d H:i:s', time()),
+        ], Auth::user()->id);
+
+        Auth::logout();
+
+        redirect('/');
+    }
+
     public function login()
     {
         return view('users/login');
@@ -57,11 +97,45 @@ class UserController
         return redirect('/login');
     }
 
-    private function validateLogin($fields)
+    public function profile()
+    {
+        if (!Auth::user()) {
+            return redirect('/');
+        }
+
+        return view('users/profile', ['user' => Auth::user()]);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/');
+    }
+
+    private function validatePasswordChange($fields)
+    {
+        $token = $fields['token'];
+        $password = $fields['password'];
+        $confirmPassword = $fields['confirmation_password'];
+
+        return ValidateRequest::validate([
+            'token' => [
+                ValidationRules::isValidToken($token)
+            ],
+            'password' => [
+                ValidationRules::password($password, $confirmPassword),
+                ValidationRules::min($password, 5)
+            ],
+        ]);
+    }
+
+    private function validateUpdate($fields)
     {
         $token = $fields['token'];
         $email = $fields['email'];
-        $password = $fields['password'];
+        $firstName = $fields['first_name'];
+        $lastName = $fields['last_name'];
 
         return ValidateRequest::validate([
             'token' => [
@@ -70,18 +144,13 @@ class UserController
             'email' => [
                 ValidationRules::email($email)
             ],
-            'password' => [
-                ValidationRules::required($password),
-                ValidationRules::min($password, 5)
+            'first_name' => [
+                ValidationRules::required($firstName)
             ],
+            'last_name' => [
+                ValidationRules::required($lastName)
+            ]
         ]);
-    }
-
-    public function logout()
-    {
-        logout();
-
-        return redirect('/');
     }
 
     private function validate($fields)
@@ -110,6 +179,26 @@ class UserController
             'last_name' => [
                 ValidationRules::required($lastName)
             ]
+        ]);
+    }
+
+    private function validateLogin($fields)
+    {
+        $token = $fields['token'];
+        $email = $fields['email'];
+        $password = $fields['password'];
+
+        return ValidateRequest::validate([
+            'token' => [
+                ValidationRules::isValidToken($token)
+            ],
+            'email' => [
+                ValidationRules::email($email)
+            ],
+            'password' => [
+                ValidationRules::required($password),
+                ValidationRules::min($password, 5)
+            ],
         ]);
     }
 }
