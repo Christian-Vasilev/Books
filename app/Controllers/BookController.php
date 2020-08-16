@@ -28,7 +28,7 @@ class BookController
         try {
             $imageName = strtolower(str_replace(' ', '_', basename($_FILES['image']['name'])));
 
-            // Create a new booking record
+            // Create a new book record
             $book = (new Book())->create([
                 'name' => sanitize($_POST['name']),
                 'description' => sanitize($_POST['description']),
