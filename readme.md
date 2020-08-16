@@ -38,6 +38,9 @@ in order to load images properly.
 - ~~Register new user~~
 - ~~Login existing user~~
 - ~~Check privileges of a user~~
+- ~~Activate user account~~
+- ~~Deactivate user account~~
+- ~~Log in only active accounts~~
 ##### Collection
 - ~~Add book to a collection~~
 - ~~Remove book from collection~~

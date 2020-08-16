@@ -5,6 +5,8 @@ namespace App\Models;
 
 
 use App\Libraries\Auth;
+use App\Libraries\ValidateRequest;
+use App\Libraries\ValidationRules;
 
 class User extends Model
 {
@@ -44,6 +46,14 @@ class User extends Model
         return $this->find($this->pdo->lastInsertId());
     }
 
+    public function list()
+    {
+        $sql =  sprintf('SELECT * FROM %s', 'users');
+        $statement = $this->pdo->query($sql);
+
+        return $statement->fetchAll(\PDO::FETCH_CLASS, User::class);
+    }
+
     public function update($attributes, $userId)
     {
         $fields = '';
@@ -78,6 +88,11 @@ class User extends Model
         return $this->privileges % self::PRIVILEGES_ADMINISTRATOR === 0;
     }
 
+    public function isActive()
+    {
+        return $this->active;
+    }
+
     public function getNames()
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -99,6 +114,26 @@ class User extends Model
         );
 
         $statement = $this->pdo->query($sql);
+
+        return $statement->rowCount();
+    }
+
+    public function activate($userId)
+    {
+        $sql = sprintf('UPDATE users SET active = true WHERE id = %s', $userId);
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute();
+
+        return $statement->rowCount();
+    }
+
+    public function deactivate($userId)
+    {
+        $sql = sprintf('UPDATE users SET active = false WHERE id = %s', $userId);
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute();
 
         return $statement->rowCount();
     }
@@ -145,14 +180,6 @@ class User extends Model
         }
 
         return $statement->fetchAll(\PDO::FETCH_CLASS, User::class)[0];
-    }
-
-    public function list()
-    {
-        $sql =  sprintf('SELECT * FROM %s', 'books');
-        $statement = $this->pdo->query($sql);
-
-        return $statement->fetchAll(\PDO::FETCH_CLASS, Book::class);
     }
 
     public function getImage()

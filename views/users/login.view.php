@@ -35,6 +35,7 @@ require APP_ROOT . 'views/partials/header.php';
                         <div class="form-group">
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
+                    <?php require APP_ROOT . 'views/includes/messages.php'; ?>
                 </div>
             </div>
         </div>

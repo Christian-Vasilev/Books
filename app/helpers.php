@@ -20,7 +20,7 @@ function csrf() {
 
 function generateCsrf() {
     if (!isset($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_expire'] = time() + 35; // 1 hour
+        $_SESSION['csrf_expire'] = time() + 3600; // 1 hour
 
         return $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }

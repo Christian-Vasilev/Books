@@ -12,6 +12,14 @@ use App\Models\User;
 
 class UserController
 {
+    public function index()
+    {
+        if (!Auth::isAdmin()) {
+            return redirect('/');
+        }
+
+        view('users/index', ['users' => (new User())->list()]);
+    }
     public function register()
     {
         if (Auth::user()) {
@@ -32,6 +40,7 @@ class UserController
             'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
             'first_name' => sanitize($_POST['first_name']),
             'last_name' => sanitize($_POST['last_name']),
+            'active' => 0,
             'created_at' => date('Y-m-d H:i:s', time()),
             'updated_at' => date('Y-m-d H:i:s', time()),
         ]);
@@ -87,6 +96,52 @@ class UserController
         return view('users/login');
     }
 
+    public function activate()
+    {
+        $validRequest = ValidateRequest::validate([
+            'token' => [
+                ValidationRules::isValidToken($_POST['token']),
+            ]
+        ]);
+
+        if ($validRequest) {
+            $active = (new User())->activate($_POST['user_id']);
+
+            if ($active) {
+                FlashMessage::create('success', 'User is activate successfully');
+
+                return redirect('/users');
+            }
+        }
+
+        FlashMessage::create('failure', 'Your token expired! User was not activated');
+
+        return redirect('/users');
+    }
+
+    public function deactivate()
+    {
+        $validRequest = ValidateRequest::validate([
+            'token' => [
+                ValidationRules::isValidToken($_POST['token']),
+            ]
+        ]);
+
+        if ($validRequest) {
+            $deactivated = (new User())->deactivate($_POST['user_id']);
+
+            if ($deactivated) {
+                FlashMessage::create('success', 'User is deactivated successfully');
+
+                return redirect('/users');
+            }
+        }
+
+        FlashMessage::create('failure', 'Your token expired! User was not deactivated');
+
+        return redirect('/users');
+    }
+
     public function signin()
     {
         if ($this->validateLogin($_POST)) {
@@ -94,6 +149,12 @@ class UserController
 
             if (is_null($user) || !password_verify($_POST['password'], $user->password)) {
                 FlashMessage::create('email', 'Credentials do not match');
+                return redirect('/login');
+            }
+
+            if (!$user->isActive()) {
+                FlashMessage::create('failure', 'Your account is not active.');
+
                 return redirect('/login');
             }
 

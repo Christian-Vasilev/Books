@@ -29,10 +29,11 @@ use App\Libraries\Auth;
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
+                <?php if (Auth::isAdmin()) { ?>
+                    <a class="nav-link text-white " href="/users">Users</a>
+                <?php } ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Books
