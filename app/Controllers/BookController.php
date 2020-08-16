@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 use App\Libraries\Auth;
+use App\Libraries\FlashMessage;
 use App\Libraries\ValidateRequest;
 use App\Libraries\ValidationRules;
 use App\Models\Book;
@@ -52,6 +53,7 @@ class BookController
             dd($e->getMessage());
         }
 
+        FlashMessage::create('success', 'Book was created successfully');
         return redirect('/');
     }
 
@@ -68,6 +70,8 @@ class BookController
         $deleted = (new Book())->delete($_POST['book_id']);
 
         if ($deleted) {
+            FlashMessage::create('success', 'Book was deleted successfully');
+
             return redirect('/');
         }
 
@@ -145,6 +149,8 @@ class BookController
         } catch (\Exception $e){
             dd($e->getMessage());
         }
+
+        FlashMessage::create('success', 'Book was updated successfully');
 
         return redirect("/books/edit?book_id={$bookId}");
     }

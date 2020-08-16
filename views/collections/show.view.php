@@ -13,7 +13,14 @@ require APP_ROOT . 'views/partials/header.php';
                 <hr/>
             </div>
         </div>
+        <?php require APP_ROOT . 'views/includes/messages.php'; ?>
         <div class="row">
+            <?php if (empty($books)) { ?>
+                <div class="col-md-12">
+                    <span class="form-text text-dark alert-danger p-2">There are no books added to your collection yet</span>
+                </div>
+            <?php } else { ?>
+
             <?php foreach ($books as $book) { ?>
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
@@ -39,7 +46,7 @@ require APP_ROOT . 'views/partials/header.php';
                         </div>
                     </div>
                 </div>
-            <?php } ?>
+            <?php } }?>
         </div>
     </div>
 </body>

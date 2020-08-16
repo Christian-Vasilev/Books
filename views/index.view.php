@@ -7,6 +7,7 @@ require 'partials/header.php';
 
 <body class="text-center" cz-shortcut-listen="true" style="">
     <div class="container pt-5">
+        <?php require 'includes/messages.php'; ?>
         <div class="row">
             <?php foreach ($books as $book) { ?>
                 <div class="col-md-4">

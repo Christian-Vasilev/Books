@@ -3,11 +3,11 @@
 use App\Libraries\Auth;
 
 require APP_ROOT . 'views/partials/header.php';
-
 ?>
 
 <body class="text-center" cz-shortcut-listen="true" style="">
     <div class="container-fluid pt-5 text-center">
+        <?php require APP_ROOT . 'views/includes/messages.php'; ?>
         <div class="row">
             <div class="col-md-4 mx-auto">
                 <div class="card mb-4 box-shadow">

@@ -53,4 +53,6 @@ use App\Libraries\FlashMessage;
             </div>
         </div>
     </div>
+    <?php require APP_ROOT . 'views/includes/messages.php'; ?>
+
 </div>

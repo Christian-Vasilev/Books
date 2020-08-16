@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 use App\Libraries\Auth;
+use App\Libraries\FlashMessage;
 use App\Libraries\ValidateRequest;
 use App\Libraries\ValidationRules;
 use App\Models\BookUser;
@@ -31,6 +32,7 @@ class CollectionController
             'updated_at' => date('Y-m-d H:i:s', time()),
         ]);
 
+        FlashMessage::create('success', 'Book was created successfully');
 
         return redirect("/books/show?book_id={$bookId}");
     }
@@ -54,14 +56,19 @@ class CollectionController
     public function delete()
     {
         $user = Auth::user();
+        $bookId = $_POST['book_id'];
 
         if (!$user) {
-            return redirect('/');
+            FlashMessage::create('failure', 'Book was not removed from the collection');
+
+            return redirect('/collection/show');
         }
 
-        (new BookUser())->delete($_POST['book_id']);
+        (new BookUser())->delete($bookId);
 
-        return redirect('/collection/show');
+        FlashMessage::create('success', 'Book was successfully removed from collection');
+
+        return redirect("/books/show?book_id={$bookId}");
     }
 
     private function validate($fields)

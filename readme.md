@@ -28,7 +28,7 @@ in order to load images properly.
 
 #### TODO:
 ##### General
-- Create flash messages on success and failure for better response;
+- ~~Create flash messages on success and failure for better response~~;
 - Add pagination to listing pages;
 - ~~Show/Hide buttons, links based on user privileges and session~~
 - ~~Restrict routes for unauthorized users~~
