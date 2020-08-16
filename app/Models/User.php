@@ -38,19 +38,10 @@ class User extends Model
             ':' . implode(', :', array_keys($attributes))
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($attributes);
 
-            $statement->execute($attributes);
-            $lastInsertedId = $this->pdo->lastInsertId();
-
-            $this->pdo->commit();
-
-            return $this->find($lastInsertedId);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return $this->find($this->pdo->lastInsertId());
     }
 
     public function update($attributes, $userId)
@@ -72,18 +63,10 @@ class User extends Model
             $userId
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(array_filter($attributes));
 
-            $statement->execute(array_filter($attributes));
-
-            $this->pdo->commit();
-
-            return $statement->rowCount();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return $statement->rowCount();
     }
 
     public function isAdmin()

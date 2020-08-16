@@ -29,18 +29,10 @@ class BookUser extends Model
             ':' . implode(', :', array_keys($attributes))
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($attributes);
 
-            $statement->execute($attributes);
-
-            $this->pdo->commit();
-
-            return $statement->rowCount();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return $statement->rowCount();
     }
 
     public function delete($bookId)
@@ -54,18 +46,9 @@ class BookUser extends Model
             Auth::user()->id
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute();
 
-            $statement->execute();
-            $deletedRecords = $statement->rowCount();
-
-            $this->pdo->commit();
-
-            return $deletedRecords;
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return $statement->rowCount();
     }
 }

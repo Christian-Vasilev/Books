@@ -34,50 +34,35 @@ class Book extends Model
             ':' . implode(', :', array_keys($attributes))
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
 
-            $statement->execute($attributes);
-            $lastInsertedId = $this->pdo->lastInsertId();
+        $statement->execute($attributes);
+        $lastInsertedId = $this->pdo->lastInsertId();
 
-            $this->pdo->commit();
-
-            return $this->find($lastInsertedId);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return $this->find($lastInsertedId);
     }
     public function update($attributes, $bookId)
     {
-        $fields = '';
+        $updateValues = '';
         foreach ($attributes as $key => $value) {
             if (in_array($key, $this->fillable) && !empty($value)) {
-                $fields .= "{$key} = :{$key}, ";
+                $updateValues .= "{$key} = :{$key}, ";
             }
         }
 
-        $fields = rtrim(trim($fields), ',');
+        $updateValues = rtrim(trim($updateValues), ',');
 
         $sql = sprintf(
             'UPDATE %s SET %s WHERE id = %s',
             'books',
-            $fields,
+            $updateValues,
             $bookId
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(array_filter($attributes));
 
-            $statement->execute(array_filter($attributes));
-
-            $this->pdo->commit();
-
-            return $statement->rowCount();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return $statement->rowCount();
     }
 
     public function delete($bookId)
@@ -88,19 +73,11 @@ class Book extends Model
             $bookId
         );
 
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare($sql);
 
-            $statement->execute();
-            $deletedRecords = $statement->rowCount();
+        $statement->execute();
 
-            $this->pdo->commit();
-
-            return $deletedRecords;
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        return  $statement->rowCount();
     }
 
     public function find($id)
