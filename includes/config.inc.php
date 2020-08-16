@@ -8,7 +8,9 @@ define('DATABASE', [
 	'CHARSET' => 'utf8',
     'OPTIONS' => [
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        // Make connection type persistent. See if there is already established connection
+        PDO::ATTR_PERSISTENT => true,
     ]
 ]);
 
