@@ -46,7 +46,7 @@ class BookController
             $uploadedFile = $directory . $imageName;
 
             if (!move_uploaded_file($_FILES['image']['tmp_name'], $uploadedFile)) {
-                throw new \LogicException('File could not be saved!');
+                throw new \Exception( 'File could not be saved!');
             }
         } catch (\Exception $e){
             dd($e->getMessage());

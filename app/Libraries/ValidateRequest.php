@@ -26,13 +26,15 @@ class ValidateRequest
      */
     private static function flash($fields)
     {
-        foreach ($fields as $field => $passes) {
-            if (!$passes) {
-                FlashMessage::create($field, "The {$field} has invalid input");
-            } else {
-                $value = isset($_POST[$field]) ? $_POST[$field] : '';
+        if (in_array(false, $fields)) {
+            foreach ($fields as $field => $passes) {
+                if (!$passes) {
+                    FlashMessage::create($field, "The {$field} has invalid input");
+                } else {
+                    $value = isset($_POST[$field]) ? $_POST[$field] : '';
 
-                FlashInputValues::create($field, $value);
+                    FlashInputValues::create($field, $value);
+                }
             }
         }
     }
